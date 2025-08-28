@@ -16,202 +16,118 @@ function isVideo($filename) {
     return in_array(getFileExtension($filename), $videoExtensions);
 }
 
-// Function to scan portfolio directory and get items
+// Function to scan portfolio directory and get the base items
 function getPortfolioItems() {
     $portfolioDir = 'portfolio';
     $items = [];
     $id = 1;
     
-    // Check if directory exists
     if (!is_dir($portfolioDir)) {
-        return ['error' => 'Portfolio directory not found'];
+        return [];
     }
     
-    // Get all subdirectories
     $subdirs = array_filter(glob($portfolioDir . '/*'), 'is_dir');
     
     foreach ($subdirs as $subdir) {
-        $dirName = basename($subdir);
-        
-        // Get all files in this subdirectory
         $files = array_filter(glob($subdir . '/*'), 'is_file');
         
-        // Skip empty directories
-        if (empty($files)) {
+        if (empty($files) || !file_exists($subdir . '/metadata.json')) {
             continue;
         }
         
-        // Check for metadata.json file first
-        $jsonFile = $subdir . '/metadata.json';
-        if (!file_exists($jsonFile)) {
-            // Skip folders without a metadata.json file
-            continue;
-        }
-        
-        $jsonData = json_decode(file_get_contents($jsonFile), true);
+        $jsonData = json_decode(file_get_contents($subdir . '/metadata.json'), true);
         if (!$jsonData || !isset($jsonData['title'])) {
-            // Skip if JSON is invalid or doesn't have a title
             continue;
         }
         
-        // Get data from JSON
-        $title = $jsonData['title'];
-        $description = isset($jsonData['description']) ? $jsonData['description'] : 'No description provided.';
-        $tags = isset($jsonData['tags']) && is_array($jsonData['tags']) ? $jsonData['tags'] : [];
-        $date = isset($jsonData['date']) ? $jsonData['date'] : date('Y-m-d', filemtime($subdir));
-        
-        // Get external link from JSON if available
-        $externalLink = isset($jsonData['link']) ? $jsonData['link'] : null;
-        
-        // Initialize media variables
-        $thumbnail = null;
-        $mediaType = null;
-        $mediaSrc = null;
-        $galleryImages = [];
-        
-        // First, look for a file named "main.*" to use as the main image
         $mainFile = null;
         foreach ($files as $file) {
-            $filename = basename($file);
-            $filenameWithoutExt = pathinfo($filename, PATHINFO_FILENAME);
-            
-            if (strtolower($filenameWithoutExt) === 'main' && isImage($filename)) {
+            if (strtolower(pathinfo($file, PATHINFO_FILENAME)) === 'main' && isImage(basename($file))) {
                 $mainFile = $file;
                 break;
             }
         }
         
-        // If no main file found, look for the first image or video
         if (!$mainFile) {
             foreach ($files as $file) {
                 $filename = basename($file);
-                
-                // Skip metadata file and hidden files
-                if ($filename === 'metadata.json' || substr($filename, 0, 1) === '.') {
-                    continue;
-                }
-                
-                if (isImage($filename) || isVideo($filename)) {
+                if ($filename !== 'metadata.json' && substr($filename, 0, 1) !== '.' && (isImage($filename) || isVideo($filename))) {
                     $mainFile = $file;
                     break;
                 }
             }
         }
         
-        // If still no main file found, skip this item
-        if (!$mainFile) {
-            continue;
-        }
-        
-        $filename = basename($mainFile);
-        $thumbnail = $mainFile;
-        
-        if (isImage($filename)) {
-            $mediaType = 'image';
-        } else {
-            $mediaType = 'video';
-        }
-        
-        $mediaSrc = $mainFile;
-        
-        // Collect all images for the gallery (excluding the main image)
-        foreach ($files as $file) {
-            $filename = basename($file);
-            
-            // Skip metadata file, hidden files, and the main file
-            if ($filename === 'metadata.json' || substr($filename, 0, 1) === '.' || $file === $mainFile) {
-                continue;
-            }
-            
-            // Add images to the gallery
-            if (isImage($filename)) {
-                $galleryImages[] = $file;
-            }
-        }
-        
-        // If main file is an image, add it to the beginning of gallery
-        if ($mediaType === 'image') {
-            array_unshift($galleryImages, $mainFile);
-        }
-        
-        // Get all media files for this item
-        $mediaFiles = [];
-        foreach ($files as $file) {
-            $filename = basename($file);
-            
-            // Skip non-media files and metadata file
-            if ((!isImage($filename) && !isVideo($filename)) || $filename === 'metadata.json') {
-                continue;
-            }
-            
-            $mediaFiles[] = [
-                'src' => $file,
-                'type' => isImage($filename) ? 'image' : 'video'
-            ];
-        }
-        
-        // Create item entry
+        if (!$mainFile) continue;
+
         $items[] = [
             'id' => $id++,
-            'title' => $title,
-            //'description' => $description,
-            'type' => $mediaType,
-            'src' => $mediaSrc,
-            //'gallery' => $galleryImages,
-            'tags' => $tags,
-            'date' => $date,
-            //'mediaFiles' => $mediaFiles,
-            'link' => $externalLink
+            'title' => $jsonData['title'],
+            'type' => isImage(basename($mainFile)) ? 'image' : 'video',
+            'src' => $mainFile,
+            'tags' => isset($jsonData['tags']) && is_array($jsonData['tags']) ? $jsonData['tags'] : [],
+            'date' => isset($jsonData['date']) ? $jsonData['date'] : date('Y-m-d', filemtime($subdir)),
+            'link' => isset($jsonData['link']) ? $jsonData['link'] : null
         ];
     }
     
-    // Sort items by date, with newest first (oldest last)
     usort($items, function($a, $b) {
-        // Convert dates to timestamps for comparison
-        $dateA = strtotime($a['date']);
-        $dateB = strtotime($b['date']);
-        
-        // If either date is invalid, fallback to sorting by ID
-        if ($dateA === false || $dateB === false) {
-            return $a['id'] - $b['id'];
-        }
-        
-        // Sort in descending order (newest first)
-        return $dateB - $dateA;
+        return strtotime($b['date']) - strtotime($a['date']);
     });
     
-    // Reassign IDs after sorting to maintain consecutive numbering
-    foreach ($items as $key => $item) {
-        $items[$key]['id'] = $key + 1;
+    foreach ($items as $key => &$item) {
+        $item['id'] = $key + 1;
     }
     
     return $items;
 }
 
-// Get portfolio items
-$portfolioItems = getPortfolioItems();
+// Function to get the FULL details for a SINGLE item by its ID
+function getFullItemDetails($id, $allItems) {
+    foreach ($allItems as $item) {
+        if ($item['id'] == $id) {
+            $subdir = dirname($item['src']);
+            $files = array_filter(glob($subdir . '/*'), 'is_file');
+            $jsonFile = $subdir . '/metadata.json';
+            $jsonData = json_decode(file_get_contents($jsonFile), true);
+            
+            $galleryImages = [];
+            foreach ($files as $file) {
+                $filename = basename($file);
+                if (isImage($filename) && $filename !== 'metadata.json' && substr($filename, 0, 1) !== '.') {
+                    $galleryImages[] = $file;
+                }
+            }
+            // Ensure main image is first if it's an image
+            if ($item['type'] === 'image' && !in_array($item['src'], $galleryImages)) {
+                 array_unshift($galleryImages, $item['src']);
+            }
 
-// Return as JSON
-header('Content-Type: application/json');
-echo json_encode($portfolioItems);
+            return [
+                'id' => $item['id'],
+                'title' => $jsonData['title'],
+                'description' => isset($jsonData['description']) ? $jsonData['description'] : 'No description provided.',
+                'type' => $item['type'],
+                'src' => $item['src'],
+                'gallery' => $galleryImages,
+                'tags' => $item['tags'],
+                'link' => $item['link']
+            ];
+        }
+    }
+    return null;
+}
 
-// get-item-details.php added 2025_08_28
-
-// Get all portfolio items using the existing function
-$allItems = getPortfolioItems();
+// --- Main script execution ---
 
 // Get the requested ID from the URL, ensuring it's an integer
 $requestedId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
-$foundItem = null;
+// Get the lightweight data for all items to find the correct folder
+$allItems = getPortfolioItems();
 
-// Find the item with the matching ID
-foreach ($allItems as $item) {
-    if ($item['id'] === $requestedId) {
-        $foundItem = $item;
-        break;
-    }
-}
+// Find the specific item and get its full details
+$foundItem = getFullItemDetails($requestedId, $allItems);
 
 // Set the content type to JSON
 header('Content-Type: application/json');
@@ -225,6 +141,5 @@ if ($foundItem) {
     echo json_encode(['error' => 'Portfolio item not found']);
 }
 
-// We exit here to prevent the original script from running its own echo
 exit;
 ?>
