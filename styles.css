@@ -1,0 +1,1063 @@
+/* Placeholder Styles */
+.placeholder {
+    background-color: var(--card-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.placeholder-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+}
+
+.placeholder-title {
+    height: 1.5rem;
+    width: 70%;
+    margin-bottom: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.placeholder-tags {
+    height: 1rem;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+/* Shimmer effect animation */
+.shimmer-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer 1.5s infinite;
+    background-size: 200% 100%;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Fade-in animation for grid items */
+.grid-item img, .grid-item video {
+    transition: opacity 0.3s ease;
+}
+
+/* Loading indicators for carousel and fullscreen views */
+.carousel-loading-indicator,
+.fullscreen-loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Optional: add a subtle animation to indicate clickable items */
+.has-link-in-carousel::after {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Enhanced styling for the external link button in carousel */
+.external-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-left: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.external-link-btn:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.external-link-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.external-link-btn:hover svg {
+    transform: translateX(3px);
+}
+
+/* Optional subtle indicator for tiles that have a link in carousel */
+.has-link-in-carousel {
+    position: relative;
+}
+
+.has-link-in-carousel::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    margin: 8px;
+    z-index: 5;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.has-link-in-carousel:hover::after {
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+/* Video player styling */
+.video-play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none; /* Allows clicks to pass through to the video */
+}
+
+.grid-item:hover .video-play-button {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Root variables */
+:root {
+    --bg-color: #17346F;
+    --text-color: #f8f8f8;
+    --accent-color: #ff3b5c;
+    --card-bg: #1e3c7a;
+    --header-bg: rgba(23, 52, 111, 0.9);
+    --shadow: rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #17346F;
+        --text-color: #f8f8f8;
+        --accent-color: #ff3b5c;
+        --card-bg: #1e3c7a;
+        --header-bg: rgba(23, 52, 111, 0.9);
+        --shadow: rgba(0, 0, 0, 0.3);
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+    min-height: 100%;
+    background-color: var(--bg-color);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+    overflow-x: hidden; /* Prevent horizontal scrolling due to z-index stacking */
+}
+
+/* Adding a pseudo-element for the dark grain texture with multiply blend mode */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/grain.png');
+    background-repeat: repeat;
+    opacity: 0.2;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Adding a second pseudo-element for the light grain texture with screen blend mode */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('assets/lightGrain.png');
+    background-repeat: repeat;
+    opacity: 0.03;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 1; 
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: all 0.5s ease;
+    position: relative;
+    z-index: 10; /* Ensure this is above the grain texture */
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem;
+    z-index: 1000;
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px; /* Extend slightly below header */
+    height: 5px;
+    background-color: var(--bg-color);
+    z-index: 999;
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: all 0.5s ease;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+    margin-bottom: 2rem;
+}
+
+.logo-image {
+    width: 66vw; /* Initial size - 2/3 of viewport width */
+    max-width: 800px;
+    transition: all 0.5s ease;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem 1rem;
+    z-index: 1000;
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+    height: 66vh; /* Initial height - takes up 2/3 of viewport */
+}
+
+.burger-menu {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+}
+
+.burger-icon {
+    width: 26px;
+    height: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.burger-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-color) !important; /* Force the color */
+    transition: all 0.3s ease;
+}
+
+/* Specific styling for the carousel burger to ensure consistent color */
+.carousel-burger .burger-icon span {
+    background-color: var(--text-color) !important;
+}
+
+/* Firefox-specific fix for burger icon color */
+@-moz-document url-prefix() {
+    .burger-icon span {
+        background-color: var(--text-color) !important;
+    }
+    
+    .carousel-burger .burger-icon span {
+        background-color: var(--text-color) !important;
+    }
+}
+
+/* Burger menu when active */
+.burger-menu.active .burger-icon span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.burger-menu.active .burger-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active .burger-icon span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Menu overlay - updated for bottom animation and z-index */
+.menu-overlay {
+    position: fixed;
+    bottom: -100%; /* Start from below the screen */
+    left: 0;
+    width: 100%; /* Full width */
+    height: 60%; /* Take up about 60% of the screen */
+    max-height: 500px;
+    background-color: var(--bg-color);
+    z-index: 3000; /* Increased from 2000 to be above carousel */
+    transition: bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Smooth slide-up animation */
+    box-shadow: 0 -2px 10px var(--shadow);
+    overflow-y: auto;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.menu-overlay.active {
+    bottom: 0; /* Slide up to bottom: 0 */
+}
+
+.menu-container {
+    padding: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center-align content */
+    text-align: center;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: center; /* Center the close button */
+    width: 100%;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.close-menu-btn {
+    font-size: 2rem;
+    cursor: pointer;
+    color: var(--text-color);
+    position: absolute;
+    right: 0;
+    top: -1rem;
+}
+
+/* Pill handle at top of menu for dragging indication */
+.menu-header::before {
+    content: '';
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* Social icons in menu */
+.menu-overlay .social-icons {
+    display: flex;
+    flex-direction: row; /* Horizontal layout */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.menu-overlay .social-icons a {
+    display: flex;
+    flex-direction: column; /* Stack icon and text */
+    align-items: center;
+    gap: 0.5rem;
+    width: 80px;
+    text-align: center;
+}
+
+.menu-overlay .social-icons a svg {
+    margin-bottom: 8px;
+    width: 24px;
+    height: 24px;
+}
+
+.menu-overlay .social-icons a span {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+/* Dark overlay behind the menu */
+.menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2999; /* Just below the menu overlay, but above carousel */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.menu-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+header.scrolled {
+    height: 70px;
+    padding: 0.5rem 1rem;
+}
+
+header.scrolled .header-content {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+header.scrolled .logo-container {
+    margin-bottom: 0;
+}
+
+header.scrolled .logo-image {
+    width: 150px;
+}
+
+.social-icons a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.social-icons a:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+.social-icons a::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+
+.social-icons a:hover::after {
+    opacity: 0.1;
+    transform: scale(1);
+}
+
+main {
+    margin-top: calc(66vh + 2rem); /* Initial margin based on header height */
+    padding: 1rem;
+    transition: margin-top 0.5s ease;
+    position: relative;
+    z-index: 5;
+}
+
+body.scrolled main {
+    margin-top: 90px; /* Adjusted margin when header is scrolled */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 0.5rem;
+}
+
+@media (min-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 1200px;
+    }
+}
+
+.grid-item {
+    aspect-ratio: 1/1;
+    background-color: var(--card-bg);
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 2px 6px var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.grid-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px var(--shadow);
+}
+
+.grid-item img, .grid-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.grid-item .info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: #fff;
+}
+
+.grid-item .info h3 {
+    margin-bottom: 0.5rem;
+}
+
+.loading, .error-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+/* Carousel Styles */
+.carousel-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    z-index: 2000; /* Keep this below menu overlay */
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.carousel-container.active {
+    display: flex;
+}
+
+.carousel-header {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--header-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2001;
+    height: 60px;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+.carousel-header .logo-container {
+    margin-bottom: 0;
+}
+
+.carousel-header .logo-image {
+    width: 120px;
+    max-height: 40px;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-social-icons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.header-social-icons a {
+    width: 32px;
+    height: 32px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.carousel-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.carousel-item {
+    height: 100%;
+    width: 100%;
+    max-width: 800px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: 0 auto;
+}
+
+.media-container {
+    height: 60vh; /* AMENDMENT: Set a consistent height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 0;
+    margin: 0.5rem;
+    position: relative; /* For loading indicator positioning */
+    min-height: 200px; /* Ensure space for loading indicator */
+}
+
+@media (prefers-color-scheme: dark) {
+    .media-container {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* AMENDMENT: New combined rule for all carousel media */
+.carousel-item img, .carousel-item video, .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* This preserves the aspect ratio */
+    position: relative;
+    z-index: 1;
+}
+
+.carousel-info {
+    padding: 1rem;
+    background-color: var(--card-bg);
+    max-width: 800px;
+    margin: 0 auto 1rem auto;
+    border-radius: 0;
+    box-shadow: 0 2px 6px var(--shadow);
+    width: calc(100% - 1rem);
+}
+
+.carousel-header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.carousel-header-info h2 {
+    margin: 0;
+    margin-right: 1rem;
+    font-size: 1.6rem;
+    color: var(--accent-color);
+    flex: 1;
+}
+
+.carousel-info .description {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.carousel-info .description p {
+    margin-bottom: 0.75rem;
+}
+
+.carousel-info .description p:last-child {
+    margin-bottom: 0;
+}
+
+.carousel-info .tags {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-top: 0.75rem;
+    border-top: 1px solid rgba(125, 125, 125, 0.2);
+    padding-top: 0.5rem;
+}
+
+.carousel-nav {
+    position: fixed;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 2002;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(125, 125, 125, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot.active {
+    background-color: var(--accent-color);
+    width: 10px;
+    height: 10px;
+    box-shadow: 0 0 8px rgba(255, 59, 92, 0.4);
+}
+
+/* Gallery Styles */
+.gallery-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.gallery-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.gallery-item {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    scroll-snap-align: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#copyright-notice {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 500;
+    opacity: 0.5;
+    
+    /* Creates the outline effect */
+    color: transparent;
+    -webkit-text-stroke: 1px var(--text-color);
+    text-stroke: 1px var(--text-color);
+    
+    /* Prevents the text from blocking clicks on content underneath */
+    pointer-events: none;
+}
+.gallery-nav {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-nav:hover {
+    opacity: 1;
+}
+
+.gallery-prev {
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.gallery-next {
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Fullscreen media view */
+.fullscreen-media-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 3100; /* Highest z-index to appear above everything */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fullscreen-media {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    z-index: 1; /* Above loading indicator */
+}
+
+.fullscreen-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 3101;
+}
+
+@media (max-width: 1200px) {
+    .carousel-item {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        padding: 0 0.25rem;
+    }
+    
+    .logo-image {
+        width: 85vw; /* Wider on mobile to maintain proportions */
+    }
+    
+    header {
+        height: 50vh; /* Not as tall on mobile */
+        padding: 1.5rem 0.75rem;
+    }
+    
+    header.scrolled .logo-image {
+        width: 120px;
+    }
+    
+    .social-icons {
+        gap: 0.75rem;
+    }
+    
+    .social-icons a {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .social-icons svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .carousel-item {
+        max-width: 100%;
+    }
+    
+    .carousel-info {
+        width: calc(100% - 1rem);
+        padding: 1rem;
+    }
+    
+    .carousel-nav {
+        right: 0.5rem;
+    }
+    
+    .video-play-button {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .video-play-button svg {
+        width: 25px;
+        height: 25px;
+    }
+    
+    main {
+        margin-top: calc(50vh + 1.5rem); /* Adjusted for mobile header height */
+    }
+    
+    body.scrolled main {
+        margin-top: 70px;
+    }
+    
+    /* Mobile menu adjustments */
+    .menu-overlay {
+        height: 70%; /* Take up more space on mobile */
+    }
+    
+    .menu-overlay .social-icons a {
+        width: 70px;
+        font-size: 0.8rem;
+    }
+    
+    .placeholder-title {
+        height: 1rem;
+    }
+    
+    .placeholder-tags {
+        height: 0.7rem;
+    }
+}
+
+/* Firefox-specific fix for the header gap */
+@-moz-document url-prefix() {
+    
+    body::before, body::after {
+        /* Ensure grain textures extend fully */
+        height: 200%; 
+    }
+    
+	main {
+        /* Adjust margin to ensure it meets the header perfectly */
+        position: relative;
+        z-index: 5;
+        margin-top: calc(66vh + 2rem); /* Add back the 2rem for spacing */
+    }
+    
+    body.scrolled main {
+        margin-top: 70px; /* Keep this the same */
+    }
+	
+	
+}
